@@ -6,16 +6,34 @@ import cookieParser from 'cookie-parser'
 import userRouter from './routes/user.route.js'
 import listingRouter from './routes/listing.route.js'
 import path from 'path'
+import { fileURLToPath } from 'url';
+
 dotenv.config()
 
-mongoose.connect(process.env.MONGO).then(() => {
-    console.log('MongoDb is connected');
+mongoose.connect(process.env.MONGODB_URI || process.env.MONGO, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 5000
+})
+  .then(() => {
+    console.log('MongoDB is connected');
   })
   .catch((err) => {
     console.error('MongoDB connection error:', err);
   });
 
-  const __dirname = path.resolve();
+// Optionally, handle error events globally
+mongoose.connection.on('error', (err) => {
+  console.error('MongoDB connection error:', err);
+});
+
+mongoose.connection.on('disconnected', () => {
+  console.log('MongoDB connection lost');
+});
+
+const __filename = fileURLToPath(import.meta.url);
+
+  const __dirname = path.dirname(__filename);
 
 const app = express()
 
@@ -33,10 +51,10 @@ app.use('/api/user',userRouter);
 app.use('/api/auth',authRouter)
 app.use('/api/listing',listingRouter)
 
-app.use(express.static(path.join(__dirname, '/client/dist')));
+app.use(express.static(path.join(__dirname, '../../client/dist')));
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+  res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
 })
 
 app.use((err, req, res, next) => {
