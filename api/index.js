@@ -33,6 +33,12 @@ app.listen(PORT, () => {
   console.log(`Server is running at port ${PORT}`);
 });
 
+// Add after other middleware but before routes
+app.use((req, res, next) => {
+  console.log(`Incoming ${req.method} request to ${req.path}`);
+  next();
+});
+
 // Routes
 app.use('/api/user', userRouter);
 app.use('/api/auth', authRouter);
