@@ -55,35 +55,35 @@ function Search() {
         // console.log(sidebardata)
 
         const fetchListings = async () => {
-  setLoading(true);
-  setShowMore(false);
-  setError('');
-
-  try {
-    const urlParams = new URLSearchParams(window.location.search);
-    const searchQuery = urlParams.toString();
-    const res = await fetch(
-      `${import.meta.env.VITE_API_BASE_URL}/api/listing/getlistings?${searchQuery}`,
-      { credentials: 'include' }
-    );
-
-    if (!res.ok) throw new Error('Failed to fetch listings');
-
-    const data = await res.json();
-
-    if (data.length > 8) {
-      setShowMore(true);
-    } else {
-      setShowMore(false);
-    }
-
-    setListings(data);
-  } catch (error) {
-    setError(error.message || 'Something went wrong');
-  } finally {
-    setLoading(false);
-  }
-};
+          setLoading(true);
+          setShowMore(false);
+          setError('');
+        
+          try {
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchQuery = urlParams.toString();
+            const res = await fetch(
+              `${import.meta.env.VITE_API_BASE_URL}/api/listing/getlistings?${searchQuery}`,
+              { credentials: 'include' }
+            );
+        
+            if (!res.ok) throw new Error('Failed to fetch listings');
+        
+            const data = await res.json();
+        
+            if (data.length > 8) {
+              setShowMore(true);
+            } else {
+              setShowMore(false);
+            }
+        
+            setListings(data);
+          } catch (error) {
+            setError(error.message || 'Something went wrong');
+          } finally {
+            setLoading(false);
+          }
+        };
 
 
         fetchListings()
@@ -141,7 +141,7 @@ function Search() {
     
     }
 
-    const handleShowMore = async(e) => {
+       const handleShowMore = async(e) => {
         e.preventDefault()
         setLoading(true)
         const startIndex = listings.length
@@ -149,7 +149,7 @@ function Search() {
         const urlParams = new URLSearchParams(window.location.search)
         urlParams.set('startIndex', startIndex)
         const searchQuery = urlParams.toString()
-        const res = await fetch(`/api/listing/getlistings?${searchQuery}`)
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/listing/getlistings?${searchQuery}`)
                 
         const data = await res.json()
         setLoading(false)
@@ -159,7 +159,7 @@ function Search() {
         } else {
             setShowMore(false)
         }
-
+    
         setListings((prev) => setListings([...prev,...data]))
     }
 
