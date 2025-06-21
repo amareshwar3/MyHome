@@ -3,6 +3,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ListingItem from "../components/ListingItem";
+import { useNavigate, useLocation } from 'react-router-dom';
+
+const location = useLocation();
 
 function Search() {
     const [sidebardata,setSidebardata] = useState({
@@ -51,28 +54,37 @@ function Search() {
         }
         // console.log(sidebardata)
 
-        const fetchListings = async() => {
-            setLoading(true)
-            setShowMore(false)
-            setError(false)
-            try {
-                const searchQuery = urlParams.toString()
-                const res = await fetch(`/api/listing/getlistings?${searchQuery}`)
-                
-                const data = await res.json()
+        const fetchListings = async () => {
+  setLoading(true);
+  setShowMore(false);
+  setError('');
 
-                setLoading(false)
-                if(data.length>8){
-                    setShowMore(true)
-                } else {
-                    setShowMore(false)
-                }
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchQuery = urlParams.toString();
+    const res = await fetch(
+      `${import.meta.env.VITE_API_BASE_URL}/api/listing/getlistings?${searchQuery}`,
+      { credentials: 'include' }
+    );
 
-                setListings(data)
-            } catch (error) {
-                setError(error)
-            }
-        }
+    if (!res.ok) throw new Error('Failed to fetch listings');
+
+    const data = await res.json();
+
+    if (data.length > 8) {
+      setShowMore(true);
+    } else {
+      setShowMore(false);
+    }
+
+    setListings(data);
+  } catch (error) {
+    setError(error.message || 'Something went wrong');
+  } finally {
+    setLoading(false);
+  }
+};
+
 
         fetchListings()
     },[window.location.search])
@@ -129,7 +141,7 @@ function Search() {
     
     }
 
-    const handleShoeMore = async(e) => {
+    const handleShowMore = async(e) => {
         e.preventDefault()
         setLoading(true)
         const startIndex = listings.length
@@ -239,7 +251,7 @@ function Search() {
             <label className='font-semibold'>Sort:</label>
             <select
               onChange={handleChange}
-              defaultValue={'created_at_desc'}
+              defaultValue={'createdAt_desc'}
               id='sort_order'
               className='border rounded-lg p-3'
             >
@@ -276,7 +288,7 @@ function Search() {
 
           {showMore && (
             <button
-              onClick={handleShoeMore}
+              onClick={handleShowMore}
               className=' text-green-700 hover:underline p-3 text-center w-full'
             >
               Show more
