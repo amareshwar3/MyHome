@@ -83,7 +83,7 @@ function Profile() {
     e.preventDefault()
     try {
       updateStart()
-      const res = await fetch(`/api/user/update/${currentUser._id}`,{
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/user/update/${currentUser._id}`,{
         method: 'POST',
         headers:{
           'Content-Type': 'application/json'
@@ -108,7 +108,7 @@ function Profile() {
   const handleDeleteUser = async() => {
     try {
       dispatch(deleteUserStart())
-      const res = await fetch(`/api/user/delete/${currentUser._id}`,{
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/user/delete/${currentUser._id}`,{
         method: 'DELETE',
       })
 
@@ -128,7 +128,7 @@ function Profile() {
   const handleSignOutUser = async() => {
     try {
       dispatch(signOutUserStart())
-      const res = await fetch(`/api/auth/signout`)
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/signout`)
 
       const data = await res.json()
       if(data.success === false){
@@ -146,11 +146,9 @@ function Profile() {
   const handleShowListings = async() =>{
     try {
       setShowListingsError(false)
-      const res = await fetch(`/api/user/getuserlistings/${currentUser._id}`)
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/user/getuserlistings/${currentUser._id}`)
 
       const data = await res.json()
-      // console.log(typeof data)
-      // console.log(data)
       if(data.success === false){
         setShowListingsError(true)
         return ;
@@ -164,7 +162,7 @@ function Profile() {
 
   const handleListingDelete = async(id) => {
     try {
-      const res = await fetch(`/api/listing/delete/${id}`,{
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/listing/delete/${id}`,{
         method: 'DELETE',
       })
 
