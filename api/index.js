@@ -6,6 +6,11 @@ import cookieParser from 'cookie-parser';
 import userRouter from './routes/user.route.js';
 import listingRouter from './routes/listing.route.js';
 import cors from 'cors';  // Add this import
+import passport from 'passport';
+import './config/passport.js'; // Add this import
+
+// Add after cookieParser but before routes
+
 dotenv.config();
 
 mongoose.connect(process.env.MONGO)
@@ -19,6 +24,7 @@ mongoose.connect(process.env.MONGO)
 const app = express();
 
 // Enable CORS with the client URL and credentials
+app.use(passport.initialize());
 app.use(cors({
   origin: process.env.CLIENT_URL,
   credentials: true
