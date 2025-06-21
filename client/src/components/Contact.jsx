@@ -9,26 +9,27 @@ function Contact({listing}){
     const [message, setMessage] = useState('')
 
     useEffect(() => {
-        const fetchLandLord = async() => {
-            try {
-                const res = await fetch(`/api/user/${listing.userRef}`)
+    const fetchLandLord = async() => {
+        try {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/user/${listing.userRef}`, {
+                credentials: 'include'
+            });
 
-                const data = await res.json();
+            const data = await res.json();
 
-                if(data.success === false){
-                    console.log(data.message)
-                    return ;
-                }
-
-                // console.log(data)
-                setlandLord(data)
-            } catch (error) {
-                console.log(error)
+            if(data.success === false){
+                console.log(data.message)
+                return ;
             }
-        }
 
-        fetchLandLord()
-    },[listing.userRef])
+            setlandLord(data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    fetchLandLord()
+},[listing.userRef])
 
     return (
         <>
