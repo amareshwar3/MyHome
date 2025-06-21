@@ -28,31 +28,31 @@ function Listing() {
     const [contact, setContact] = useState(false)
 
     useEffect(() => {
-        const fecthListing = async() => {
-            try {
-                setLoading(true)
-                setError('')
-                const res = await fetch(`/api/listing/getlisting/${params.listingid}`)
+    const fecthListing = async() => {
+        try {
+            setLoading(true)
+            setError('')
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/listing/getlisting/${params.listingid}`)
 
-                const data = await res.json()
-                setLoading(false)
-                if(data.success === false){
-                    setError(data.message)
-                    return 
-                }
-
-                // console.log(data)
-                setListing(data)
-                setError('')
-            } catch (error) {
-                setError(error.message)
-                setLoading(false)
+            const data = await res.json()
+            setLoading(false)
+            if(data.success === false){
+                setError(data.message)
+                return 
             }
-            
-        } 
 
-        fecthListing()
-    },[params.listingid])
+            // console.log(data)
+            setListing(data)
+            setError('')
+        } catch (error) {
+            setError(error.message)
+            setLoading(false)
+        }
+        
+    } 
+
+    fecthListing()
+},[params.listingid])
 
     return (
         <main>
