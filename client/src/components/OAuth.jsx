@@ -19,16 +19,16 @@ function OAuth() {
 
             // console.log(result)
 
-            const res = await fetch('/api/auth/google', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    name: result.user.displayName,
-                    email: result.user.email,
-                    photo: result.user.photoURL,
-                }),
+            // Update the fetch call to use VITE_API_BASE_URL
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/google`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                credential: result.user.accessToken // Send Google access token instead
+              }),
+              credentials: 'include' // For cookies
             });
             const data = await res.json();
 
