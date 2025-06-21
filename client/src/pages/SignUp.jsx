@@ -22,13 +22,15 @@ function SignUp() {
     e.preventDefault()
     
       setloading(true)
-      await fetch('/api/auth/signup',{
+      // Update the fetch call
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/signup`, {
         method: 'POST',
         headers: {
-          'content-type': 'application/json'
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify(userData)
-      })
+        body: JSON.stringify(userData),
+        credentials: 'include'
+      });
       .then(res => res.json())
       .then(res => {
         setloading(false)
