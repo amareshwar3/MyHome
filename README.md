@@ -1,6 +1,6 @@
-# TrueHomes
+# MyHome
 
-TrueHomes is a MERN stack project designed to facilitate real estate management. The application allows users to list, search, and manage properties efficiently.
+MyHome is a MERN stack project designed to facilitate real estate management. The application allows users to list, search, and manage properties efficiently.
 
 ## Features
 
@@ -20,8 +20,8 @@ TrueHomes is a MERN stack project designed to facilitate real estate management.
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/itsaman1825/TrueHomes.git
-    cd TrueHomes
+    git clone https://github.com/itsaman1825/MyHome.git
+    cd MyHome
     ```
 
 2. Install dependencies for both server and client:
@@ -59,14 +59,3 @@ TrueHomes is a MERN stack project designed to facilitate real estate management.
 4. Commit your changes (`git commit -am 'Add new feature'`)
 5. Push to the branch (`git push origin feature-branch`)
 6. Create a new Pull Request
-
-## License
-
-This project is licensed under the MIT License.
-
-## Acknowledgements
-
-- [MongoDB](https://www.mongodb.com/)
-- [Express](https://expressjs.com/)
-- [React](https://reactjs.org/)
-- [Node.js](https://nodejs.org/)
